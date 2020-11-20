@@ -1,0 +1,80 @@
+#!/bin/bash
+
+function createModel() {
+	if [ -d embed/templates/$1 ]; then
+		echo "Model already exists . . ."
+	else
+		mkdir -p embed/templates/$1
+		mkdir -p embed/templates/$1/views && touch embed/templates/$1/routes.html
+		# make routes
+		echo "<cms:route name='list' path='' />" >> embed/templates/$1/routes.html
+		echo "<cms:route name='create' path='create' />" >> embed/templates/$1/routes.html
+		echo "<cms:route name='show' path='{:id}' />" >> embed/templates/$1/routes.html
+		echo "<cms:route name='edit' path='{:id}/edit' />" >> embed/templates/$1/routes.html
+		echo "<cms:route name='delete' path='{:id}/delete' />" >> embed/templates/$1/routes.html
+		# make template
+		touch embed/templates/$1/routes.html
+		for view in list create show edit delete; do
+			echo "<cms:extends 'anatomy/root.html' />" >> embed/templates/$1/views/$view.html
+		done
+		touch embed/templates/$1/$1.css
+		touch embed/templates/$1/$1.js
+		touch ./$1.php
+		echo "<?php require_once('admin/cms.php');?>" >> ./$1.php
+		echo "<cms:extends 'anatomy/template.html' />" >> ./$1.php
+		echo "" >> ./$1.php
+		echo "<cms:block 'set-template'>" >> ./$1.php
+		echo -e "\t<cms:call 'template'" >> ./$1.php
+		echo -e "\t\t" >> ./$1.php
+		echo -e "\t/>" >> ./$1.php
+		echo "</cms:block>" >> ./$1.php
+		echo "" >> ./$1.php
+		echo "<?php COUCH::invoke( K_IGNORE_CONTEXT ); ?>" >> ./$1.php
+	fi
+}
+
+
+function removeModel() {
+	if [ -d embed/templates/$1 ]; then
+		rm -r embed/templates/$1
+		rm ./$1.php
+	else
+		echo "Model '$1' does not exist . . ."
+	fi
+}
+
+
+# - - - Make new model
+if [ $1 = 'model' ]; then
+	createModel $2
+fi
+
+
+# - - - Remove model
+if [ $1 = 'remove' ]; then
+	removeModel $2
+fi
+
+
+
+
+
+# - - - Make new view
+if [ $1 = 'view' ]; then
+	# check that 3 arguments are passed
+	if [ $# = 3 ]; then
+		# check that model exists
+		if [ -d embed/templates/$3 ]; then
+			touch embed/templates/$3/views/$2.html
+			echo "<cms:extends 'elements/layout/root.html' />" >> embed/templates/$3/views/$2.html
+			echo "" >> embed/templates/$3/routes.html
+			echo "<cms:route name = '$2' path = '$2' />" >> embed/templates/$3/routes.html
+			sublime embed/templates/$3/views/$2.html
+			echo "View created: '$3' => '$2'"
+		else
+			echo "Model '$3' does not exist . . ."
+		fi
+	else
+		echo "View expects two arguments => {view name} {model name}"
+	fi
+fi
