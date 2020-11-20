@@ -1,0 +1,24 @@
+#!/bin/bash
+
+mv anatomy-ac ac
+chmod +x ac/anatomy ac/install
+
+for item in index settings; do
+	cp ac/library/$item.php $item.php
+done
+
+mkdir assets
+mkdir assets/css && touch assets/css/.gitkeep
+mkdir assets/img && touch assets/img/.gitkeep
+mkdir assets/js && touch assets/js/client.js
+
+git clone https://github.com/goanatomic/anatomy.git
+git clone https://github.com/goanatomic/anatomy-couch.git
+git clone https://github.com/goanatomic/anatomy-filters.git
+git clone https://github.com/goanatomic/anatomy-vendor.git
+
+mkdir embed
+mv anatomy embed/anatomy
+mv anatomy-couch admin
+mv anatomy-filters embed/filters
+mv anatomy-vendor vendor
