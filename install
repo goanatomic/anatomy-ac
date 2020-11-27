@@ -4,6 +4,7 @@ mv anatomy-ac ac
 chmod +x ac/anatomy ac/install
 
 for item in index settings; do
+	ac/anatomy model $item
 	cp ac/library/$item.php $item.php
 done
 
