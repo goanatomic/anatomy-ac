@@ -1,0 +1,12 @@
+#!/bin/bash
+
+function removeModel() {
+	if [ -d embed/templates/$1 ]; then
+		rm -r embed/templates/$1
+		rm ./$1.php
+	else
+		echo "Model '$1' does not exist . . ."
+	fi
+}
+
+removeModel $1
