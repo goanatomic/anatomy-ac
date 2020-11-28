@@ -33,3 +33,4 @@ function createModel() {
 }
 
 createModel $1
+sublime $1.php
