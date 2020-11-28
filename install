@@ -1,8 +1,4 @@
 #!/bin/bash
-
-mv anatomy-ac ac
-chmod +x ac/anatomy ac/install
-
 for item in index settings; do
 	cp ac/library/$item.php $item.php
 done
