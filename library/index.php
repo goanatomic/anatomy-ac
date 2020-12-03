@@ -13,14 +13,7 @@
 <!-- Set tempalte editables -->
 <cms:block 'editables'>
 	<cms:block_parent />
-
-	<cms:editable
-		name = 'audio'
-		label = 'Audio'
-		type = 'file'
-		order = '0'
-	/>
-
+	
 </cms:block>
 
 <?php COUCH::invoke( K_IGNORE_CONTEXT );?>
