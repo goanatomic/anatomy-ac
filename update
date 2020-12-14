@@ -1,0 +1,4 @@
+#!/bin/bash
+
+root=pwd
+git submodule foreach 'git pull origin master'
