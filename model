@@ -5,14 +5,6 @@ function createModel() {
 	else
 		mkdir -p embed/templates/$1
 		mkdir -p embed/templates/$1/views && touch embed/templates/$1/routes.html
-		# make routes
-		echo "<cms:route name='list' path='' />" >> embed/templates/$1/routes.html
-		echo "<cms:route name='create' path='create' />" >> embed/templates/$1/routes.html
-		echo "<cms:route name='show' path='{:id}' />" >> embed/templates/$1/routes.html
-		echo "<cms:route name='edit' path='{:id}/edit' />" >> embed/templates/$1/routes.html
-		echo "<cms:route name='delete' path='{:id}/delete' />" >> embed/templates/$1/routes.html
-		# make template
-		touch embed/templates/$1/routes.html
 		for view in list create show edit delete; do
 			echo "<cms:extends 'anatomy/root.html' />" >> embed/templates/$1/views/$view.html
 		done
