@@ -18,17 +18,7 @@ function createModel() {
 		done
 		touch embed/templates/$1/$1.css
 		touch embed/templates/$1/$1.js
-		touch ./$1.php
-		echo "<?php require_once('admin/cms.php');?>" >> ./$1.php
-		echo "<cms:extends 'anatomy/template.html' />" >> ./$1.php
-		echo "" >> ./$1.php
-		echo "<cms:block 'set-template'>" >> ./$1.php
-		echo -e "\t<cms:call 'template'" >> ./$1.php
-		echo -e "\t\t" >> ./$1.php
-		echo -e "\t/>" >> ./$1.php
-		echo "</cms:block>" >> ./$1.php
-		echo "" >> ./$1.php
-		echo "<?php COUCH::invoke( K_IGNORE_CONTEXT ); ?>" >> ./$1.php
+		touch ./$1.php && cat ./ac/library/standard-model.php >> ./$1.php
 	fi
 }
 
