@@ -5,9 +5,6 @@ function createModel() {
 	else
 		mkdir -p embed/templates/$1
 		mkdir -p embed/templates/$1/views && touch embed/templates/$1/routes.html
-		for view in list create show edit delete; do
-			echo "<cms:extends 'anatomy/root.html' />" >> embed/templates/$1/views/$view.html
-		done
 		touch embed/templates/$1/$1.css
 		touch embed/templates/$1/$1.js
 		touch ./$1.php && cat ./ac/library/standard-model.php >> ./$1.php
