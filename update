@@ -1,4 +1,9 @@
 #!/bin/bash
+. "ac/config.sh"
 
-root=pwd
-git submodule foreach 'git pull origin master'
+if [ $# -eq 0 ]; then
+	root=pwd
+	git submodule foreach 'git pull origin master'
+elif [ $1 = 'status' ]; then
+	echo -e '\nStill working on an update option. Check back later.\n'
+fi
