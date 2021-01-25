@@ -1,12 +1,51 @@
 #!/bin/bash
 
-function removeModel() {
-	if [ -d embed/templates/$1 ]; then
-		rm -r embed/templates/$1
-		rm ./$1.php
-	else
-		echo "Model '$1' does not exist . . ."
-	fi
-}
+if [[ -n $2 ]]; then
 
-removeModel $1
+	# Model
+	if [[ $1 = 'model' ]]; then
+		model=$2
+		if [[ -d embed/templates/$model ]]; then
+			rm -r embed/templates/$model
+			rm ./$model.php
+			echo "Model '$model' removed"
+		else
+			echo "Model '$model' does not exist . . ."
+		fi
+
+	# View
+	elif [[ $1 = 'view' ]]; then
+		# Check that third argument is present
+		if [[ -n $3 ]]; then
+			# Three arguments exist. Proceed.
+			view=$2
+			model=$3
+			# Check that directory exists
+			if [[ -d embed/templates/$model ]]; then
+				# Check that view exists
+				if [[ -f embed/templates/$model/views/$view.html ]]; then
+					# Remove view
+					rm embed/templates/$model/views/$view.html
+					sublime embed/templates/$model/routes.html
+					echo -e "\nRemoved view\nCheck the associated routes file for stray routes\n"
+				else
+					echo "View '$view' doesn't exist . . ."
+				fi
+			else
+				echo "Model '$model' doesn't exist . . ."
+			fi
+		else
+			echo "Requires two arguments (view, model)"
+		fi
+
+	# Not a valid argument
+	else
+		echo "Invalid arguments"
+	fi
+
+else
+
+	# Requires two arguments
+	echo "More arguments expected . . ."
+
+fi
