@@ -15,4 +15,6 @@ function createModel() {
 }
 
 createModel $1
-sublime $1.php
+if sublime &> /dev/null; then
+	sublime $1.php
+fi

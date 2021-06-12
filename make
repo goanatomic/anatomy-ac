@@ -11,7 +11,9 @@ if [ $1 = 'view' ]; then
 			echo "<cms:extends 'anatomy/root.html' />" >> embed/templates/$3/views/$2.html
 			echo "" >> embed/templates/$3/routes.html
 			echo "<cms:route name = '$2' path = '$2' />" >> embed/templates/$3/routes.html
-			sublime embed/templates/$3/views/$2.html
+			if sublime &> /dev/null; then
+				sublime embed/templates/$3/views/$2.html
+			fi
 			echo "View created: '$3' => '$2'"
 		else
 			echo "Model '$3' does not exist . . ."
