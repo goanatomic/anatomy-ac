@@ -1,20 +1,54 @@
 #!/bin/bash
-function createModel() {
-	if [ -d embed/templates/$1 ]; then
-		echo "Model already exists . . ."
-	else
-		mkdir -p embed/templates/$1
-		mkdir -p embed/templates/$1/views && touch embed/templates/$1/routes.html
-		for view in list create show edit delete; do
-			echo "<cms:extends 'anatomy/root.html' />" >> embed/templates/$1/views/$view.html
-		done
-		touch embed/templates/$1/$1.css
-		touch embed/templates/$1/$1.js
-		touch ./$1.php && cat ./ac/library/standard-model.php >> ./$1.php
-	fi
-}
+###############
+# FUNCTIONS
+###############
 
-createModel $1
-if sublime &> /dev/null; then
-	sublime $1.php
-fi
+	# Create model
+	function createModel() {
+		if [[ -d embed/templates/$1 ]]; then
+			echo "Model already exists . . ."
+		else
+			mkdir -p embed/templates/$1
+			mkdir -p embed/templates/$1/views && touch embed/templates/$1/routes.html
+			for view in list create show edit delete; do
+				echo "<cms:extends 'anatomy/root.html' />" >> embed/templates/$1/views/$view.html
+			done
+			touch embed/templates/$1/$1.css
+			touch embed/templates/$1/$1.js
+			touch ./$1.php && cat ./ac/library/standard-model.php >> ./$1.php
+		fi
+		# Open Sublime, if available
+		if sublime &> /dev/null; then
+			sublime $1.php
+		fi
+	}
+
+
+
+###############
+# EXECUTION
+###############
+
+	# Remove model
+	if [[ $1 = 'remove' ]]; then
+		if [[ -n "$2" ]]; then
+			model=$2
+			if [[ -d embed/templates/$model ]]; then
+				rm -r embed/templates/$model
+				rm ./$model.php
+				echo "Model '$model' removed"
+			else
+				echo "Model '$model' does not exist . . ."
+			fi
+		else
+			echo "Requires 2 arguments (ac/model remove {model_name})"
+		fi
+
+	elif [[ $2 = 'make' ]]; then
+		createModel $2
+	
+	# No second argument (assume make model)
+	elif [[ -z "$2" ]]; then
+		createModel $1
+
+	fi
