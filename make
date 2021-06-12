@@ -2,6 +2,7 @@
 
 # - - - Make new view
 if [ $1 = 'view' ]; then
+
 	# check that 3 arguments are passed
 	if [ $# = 3 ]; then
 		# check that model exists
@@ -18,4 +19,9 @@ if [ $1 = 'view' ]; then
 	else
 		echo "View expects two arguments => {view name} {model name}"
 	fi
+
+# display help info
+elif [ $1 = 'help' ]; then
+	echo "make view {view_name} {model_name}"
+
 fi
